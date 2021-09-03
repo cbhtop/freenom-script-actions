@@ -20,6 +20,6 @@ jobs:
       - name: Configure freenom-script
         run: |
           sudo rm -f /usr/local/etc/freenom.conf
-          sudo wget ${{ secrets.link }} -O /usr/local/etc/freenom.conf
+          sudo wget ${{ secrets.link }} -O /usr/local/etc/freenom.conf &> /dev/null
       - name: run script
-        run: freenom.sh -r -a
+        run: sudo freenom.sh -r -a -o
