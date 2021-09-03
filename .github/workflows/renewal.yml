@@ -25,4 +25,4 @@ jobs:
         if: github.event_name == 'schedule'
         run: sleep $(shuf -i 10-1800 -n 1)
       - name: run script
-        run: sudo freenom.sh -r -a -o
+        run: sudo freenom.sh -r -a &> /dev/null
