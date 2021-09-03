@@ -4,7 +4,7 @@ on:
   push: 
     branches: [main]
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 8 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -21,5 +21,8 @@ jobs:
         run: |
           sudo rm -f /usr/local/etc/freenom.conf
           sudo wget ${{ secrets.link }} -O /usr/local/etc/freenom.conf &> /dev/null
+      - name: random sleep
+        if: github.event_name == 'schedule'
+        run: sleep $(shuf -i 10-1800 -n 1)
       - name: run script
         run: sudo freenom.sh -r -a -o
