@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  schedules:
+    - cron: */5 * * * *
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          repository: 'mkorthof/freenom-scripts'
+      - name: Install freenom-script
+        run: sudo make install
+      - name: Configure freenom-script email
+        run: sudo sed -i 's/^#\(freenom_email="you@example.com\)/\(freenom_email="keepsobp@gmail.com\)/g' /usr/local/etc/freenom.conf
+      - name: Configure freenom-script password
+        run: sudo sed -i 's/^#\(freenom_passwd="yourpassword\)/\(freenom_passwd="${{ secrets.FN_PASSWORD }}\)/g' /usr/local/etc/freenom.conf
+      - name: run script
+        run: freenom.sh -r -a
