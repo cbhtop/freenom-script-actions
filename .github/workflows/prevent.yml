@@ -1,0 +1,21 @@
+# https://docs.github.com/en/free-pro-team@latest/actions/managing-workflow-runs/disabling-and-enabling-a-workflow
+
+name: prevent inactive actions
+
+on:
+  schedule:
+  - cron: 0 0 25 * *
+
+jobs:
+  prevent-inactive:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: auto commit
+      uses: swinton/commit@v2.x
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: .github/workflows/prevent.yml
+        commit-message: ""
+        ref: refs/heads/main
